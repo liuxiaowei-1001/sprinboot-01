@@ -1,0 +1,34 @@
+mybatis:
+  #  * MyBatis xml配置文件的位置。 可以用下面的configuration取代，只能有一种方式。
+  #  config-location: classpath:mybatis/mybatis-config.xml
+  #  * MyBatis映射器文件的位置。
+  mapper-locations: classpath:mapper/*.xml
+  #  *搜索类型别名的包。(包的分隔符为“，;\ t \ n”)
+  type-aliases-package: com.bonc.sprinboot01.entity
+  #  *是否对MyBatis xml配置文件进行presence检查。
+  check-config-location: true
+  #  *外部化属性的MyBatis配置。
+  configuration:
+    #使用驼峰命名法转换字段。
+    map-underscore-to-camel-case: true
+    #日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #全局性地开启或关闭所有映射器配置文件中已配置的任何缓存。
+    cache-enabled: true
+    #全局启用或禁用延迟加载。当禁用时，所有关联对象都会即时加载。
+    lazy-loading-enabled: true
+    #当启用时，有延迟加载属性的对象在被调用时将会完全加载任意属性。否则，每种属性将会按需要加载。
+    aggressive-lazy-loading: true
+    #是否允许单条sql 返回多个数据集  (取决于驱动的兼容性) default:true
+    multiple-result-sets-enabled: true
+    #是否可以使用列的别名 (取决于驱动的兼容性) default:true
+    use-column-label: true
+    #设置本地缓存范围 session:就会有数据的共享  statement:语句范围 (这样就不会有数据的共享 ) defalut:session
+    local-cache-scope: session
+    #设置但JDBC类型为空时,某些驱动程序 要指定值,default:OTHER，插入空值时不需要指定类型
+    jdbc-type-for-null: null
+    #如果数据为空的字段，则该字段省略不显示，可以通过添加配置文件，规定查询数据为空是则返回null。
+    call-setters-on-nulls: true
+
+#  configuration-properties:
+

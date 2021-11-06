@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--根节点-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <property name="log.web_name" value="ceshi_web"></property>
+    <!--    文件输出地址-->
+    <property name="log.path" value="./mylog"></property>
+    <!--    文件大小-->
+    <property name="log.maxSize" value="1MB"></property>
+    <!--    文件最大值-->
+    <property name="log.maxcap" value="1GB"></property>
+    <!--    文件保留时间-->
+    <property name="log.maxHistory" value="10"></property>
+    <!--    日志输出编码-->
+    <property name="log.encoding" value="UTF-8"></property>
+    <!--    文件内容是否覆盖-->
+    <property name="log.append" value="true"></property>
+
+    <!--    文件内容格式-->
+    <property name="file_log_format" value="%d{yyyy-MM-dd HH:mm:ss} | %-5level | [%thread] | %logger{36} |
+       %msg%n "></property>
+    <!--    控制台输出格式-->
+    <property name="console_log_format" value="%yellow(%d{yyyy-MM-dd HH:mm:ss}) | %highlight(%-5level) | [%blue(%thread)] | %green(%logger{36}) |
+       %cyan(%msg%n) "></property>
+
+    <!-- Consoleappender 控制台输出日志 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${console_log_format}</pattern>
+            <charset>${log.encoding}</charset>
+        </encoder>
+    </appender>
+
+    <!-- ERROR级别日志 -->
+    <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 RollingFileappender -->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/ERROR/${log.web_name}.log</file>
+        <append>${log.append}</append>
+        <!-- 过滤器，只记录WARN级别的日志 -->
+        <!-- 果日志级别等于配置级别，过滤器会根据onMath 和 onMismatch接收或拒绝日志。 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 设置过滤级别 -->
+            <level>ERROR</level>
+            <!-- 用于配置符合过滤条件的操作 -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 用于配置不符合过滤条件的操作 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 最常用的滚动策略，它根据时间来制定滚动策略.既负责滚动也负责触发滚动 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志输出位置 可相对、和绝对路径 -->
+            <fileNamePattern>${log.path}/ERROR/${log.web_name}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+
+            <!-- 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件,假设设置每个月滚动，且<maxHistory>是6，
+            则只保存最近6个月的文件，删除之前的旧文件。注意，删除旧文件是，那些为了归档而创建的目录也会被删除 -->
+            <maxHistory>${log.maxHistory}</maxHistory>
+            <!--日志文件最大的大小-->
+            <MaxFileSize>${log.maxSize}</MaxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${file_log_format}</pattern>
+            <charset>${log.encoding}</charset>
+        </encoder>
+    </appender>
+
+
+    <!-- WARN级别日志 appender -->
+    <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 RollingFileAppender -->
+    <appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/WARN/${log.web_name}.log</file>
+        <append>${log.append}</append>
+        <!-- 过滤器，只记录WARN级别的日志 -->
+        <!-- 果日志级别等于配置级别，过滤器会根据onMath 和 onMismatch接收或拒绝日志。 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 设置过滤级别 -->
+            <level>WARN</level>
+            <!-- 用于配置符合过滤条件的操作 -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 用于配置不符合过滤条件的操作 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 最常用的滚动策略，它根据时间来制定滚动策略.既负责滚动也负责触发滚动 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--日志输出位置 可相对、和绝对路径 -->
+            <fileNamePattern>${log.path}/WARN/${log.web_name}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!-- 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件,假设设置每个月滚动，且<maxHistory>是6，
+            则只保存最近6个月的文件，删除之前的旧文件。注意，删除旧文件是，那些为了归档而创建的目录也会被删除 -->
+            <maxHistory>${log.maxHistory}</maxHistory>
+            <!--日志文件最大的大小-->
+            <MaxFileSize>${log.maxSize}</MaxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${file_log_format}</pattern>
+            <charset>${log.encoding}</charset>
+        </encoder>
+    </appender>
+
+
+    <!-- INFO级别日志 appender -->
+    <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/info/${log.web_name}.log</file>
+        <append>${log.append}</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <!--            有时候我们需要将info以上级别的都输出到info日志中,方便我们看异常信息,就注释掉下面的东西-->
+            <!--            <onMatch>ACCEPT</onMatch>-->
+            <!--            <onMismatch>DENY</onMismatch>-->
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/info/${log.web_name}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <maxHistory>${log.maxHistory}</maxHistory>
+            <MaxFileSize>${log.maxSize}</MaxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${file_log_format}</pattern>
+            <charset>${log.encoding}</charset>
+        </encoder>
+    </appender>
+
+
+    <!-- DEBUG级别日志 appender -->
+    <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/DEBUG/${log.web_name}.log</file>
+        <append>${log.append}</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/DEBUG/${log.web_name}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <maxHistory>${log.maxHistory}</maxHistory>
+            <MaxFileSize>${log.maxSize}</MaxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${file_log_format}</pattern>
+            <charset>${log.encoding}</charset>
+        </encoder>
+    </appender>
+
+    <!-- TRACE级别日志 appender -->
+    <appender name="TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/TRACE/${log.web_name}.log</file>
+        <append>${log.append}</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/TRACE/${log.web_name}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <maxHistory>${log.maxHistory}</maxHistory>
+            <MaxFileSize>${log.maxSize}</MaxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${file_log_format}</pattern>
+            <charset>${log.encoding}</charset>
+        </encoder>
+    </appender>
+
+
+    <!-- INFO级别日志 appender -->
+    <appender name="DRUID" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/DRUID/${log.web_name}.log</file>
+        <append>${log.append}</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <!--            有时候我们需要将info以上级别的都输出到info日志中,方便我们看异常信息,就注释掉下面的东西-->
+            <!--            <onMatch>ACCEPT</onMatch>-->
+            <!--            <onMismatch>DENY</onMismatch>-->
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/DRUID/${log.web_name}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <maxHistory>${log.maxHistory}</maxHistory>
+            <MaxFileSize>${log.maxSize}</MaxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${file_log_format}</pattern>
+            <charset>${log.encoding}</charset>
+        </encoder>
+    </appender>
+
+
+    <!--druid相关logger，additivity="false" 设置打印信息行为不向上级传递-->
+    <logger name="com.alibaba.druid.filter.stat.StatFilter" level="ERROR" additivity="false">
+        <appender-ref ref="DRUID"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!--打印sql-->
+    <logger name="org.apache.ibatis" additivity="false" level="debug">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    <logger name="org.mybatis" additivity="false" level="debug">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    <logger name="com.bonc.druiddemo.dao" additivity="false" level="debug">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <logger name="com.bonc.sprinboot01.config.VisiableThreadPoolTaskExecutor" additivity="false" level="debug">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!--     root级别   DEBUG -->
+    <root>
+        <!-- 打印debug级别日志及以上级别日志 -->
+        <level value="INFO"/>
+        <!-- 控制台输出 -->
+        <appender-ref ref="CONSOLE"/>
+        <!-- 不管什么包下的日志都输出文件 -->
+        <appender-ref ref="ERROR"/>
+        <appender-ref ref="INFO"/>
+        <!--        <appender-ref ref="DRUID"/>-->
+        <appender-ref ref="WARN"/>
+        <appender-ref ref="DEBUG"/>
+        <appender-ref ref="TRACE"/>
+    </root>
+
+
+</configuration>

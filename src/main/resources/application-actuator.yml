@@ -1,0 +1,35 @@
+management:
+  server:
+    port: 8888
+  endpoints:
+    enabled-by-default: false   #暴露所有端点信息
+    web:
+      exposure:
+        include: '*'        #以web方式暴露
+  #按需开启端点信息
+  endpoint:
+    health: #主要用来检测应用的运行状况，是使用最多的一个监控点
+      show-details: always
+    beans: #从返回的信息中我们可以看出主要展示了 bean 的别名、类型、是否单例、类的地址、依赖等信息。
+      enabled: true
+    info: #查看应用信息是否在 application.properties 中配置。如我们在项目中配置是：
+      enabled: true
+    metrics:    #可以获取系统度量指标信息项如下：
+      enabled: true
+    loggers:    #获取系统的日志信息。
+      enabled: true
+    mappings:   #查看所有 URL 映射，即所有 @RequestMapping 路径的整理列表。
+      enabled: true
+    conditions: #通过 conditions 可以在应用运行时查看代码了某个配置在什么条件下生效，或者某个自动配置为什么没有生效。
+      enabled: true
+    threaddump: #获取系统线程的转储信息，主要展示了线程名、线程ID、线程的状态、是否等待锁资源等信息
+      enabled: true
+    shutdown: #开启可以接口关闭 Spring Boot 应用，
+      enabled: true
+info:
+  web:
+    name: springboot2.0
+    version: 1.1
+    description: Spring Boot Actuator Demo
+
+

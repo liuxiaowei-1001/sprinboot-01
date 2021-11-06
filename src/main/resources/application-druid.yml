@@ -1,0 +1,75 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mybatis
+    username: root
+    password: 123123
+    driver-class-name: com.mysql.jdbc.Driver
+    #    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #      事务
+      default-auto-commit: false
+      aop-patterns: com.bonc.sprinboot01.*   #监控springbean
+      #初始化大小
+      initialSize: 5
+      #最小值
+      minIdle: 5
+      #最大值
+      maxActive: 20
+      #最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
+      maxWait: 60000
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接
+      timeBetweenEvictionRunsMillis: 60000
+      #配置一个连接在池中最小生存的时间
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      # stat 是sql监控
+      #'wall'用于防火墙
+      filters: stat,wall,slf4j
+      #最大PSCache连接
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      # 这个是上面stat，以及wall的详细配置
+      filter:
+        stat:
+          slow-sql-millis: 500
+          log-slow-sql: true
+          enabled: true
+        wall:
+          enabled: true
+          config:
+            drop-table-allow: false #不可以删除表
+        slf4j:
+          enabled: true
+      #          statement-create-after-log-enabled: false
+      #          statement-close-after-log-enabled: false
+      #          result-set-open-after-log-enabled: false
+      #          result-set-close-after-log-enabled: false
+
+
+      # 配置StatFilter  web监控
+      web-stat-filter:
+        #默认为false，设置为true启动
+        enabled: true
+        url-pattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+
+
+      #配置StatViewServlet 登录页以及白名单
+      stat-view-servlet:
+        #启用
+        enabled: true
+        #路径
+        url-pattern: "/druid/*"
+        #允许那些ip 白名单
+        allow: 127.0.0.1
+        login-username: admin
+        login-password: 123456
+        #禁止那些ip  黑名单，当白名单跟黑名单重复优先黑名单
+        deny: 192.168.1.102
+        #是否可以重置
+        reset-enable: false
+
