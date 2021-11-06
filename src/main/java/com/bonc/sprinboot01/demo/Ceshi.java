@@ -7,5 +7,6 @@ public class Ceshi {
         System.out.println("Ceshi.main");
         System.out.println("Ceshi.main2");
         System.out.println("Ceshi.发射点发射点");
+        System.out.println("Ceshi.发射点发射点");
     }
 }
